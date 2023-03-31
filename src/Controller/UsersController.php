@@ -33,7 +33,7 @@ class UsersController extends AbstractController
         return $this->json($user, JsonResponse::HTTP_OK);
     }
 
-    #[Route('/users', name: 'create_users', methods: ['POST'])]
+    #[Route('/users/signup', name: 'create_users', methods: ['POST'])]
     public function createUsers(
                                 EntityManagerInterface $entityManager,
                                 Request $req,
