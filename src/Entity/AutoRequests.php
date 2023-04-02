@@ -11,19 +11,27 @@ class AutoRequests
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['automationNestedData'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['automationNestedData'])]
     private ?string $type = null;
 
     #[ORM\Column(nullable: true)]
+    #[Groups(['automationNestedData'])]
     private array $header = [];
 
     #[ORM\Column(nullable: true)]
+    #[Groups(['automationNestedData'])]
     private array $body = [];
 
     #[ORM\Column(length: 255)]
+    #[Groups(['automationNestedData'])]
     private ?string $url = null;
+
+    #[ORM\ManyToOne(inversedBy: 'autorequest_id')]
+    private ?Automations $automations = null;
 
     public function getId(): ?int
     {
@@ -74,6 +82,18 @@ class AutoRequests
     public function setUrl(string $url): self
     {
         $this->url = $url;
+
+        return $this;
+    }
+
+    public function getAutomations(): ?Automations
+    {
+        return $this->automations;
+    }
+
+    public function setAutomations(?Automations $automations): self
+    {
+        $this->automations = $automations;
 
         return $this;
     }
