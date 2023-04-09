@@ -31,6 +31,16 @@ class UsersController extends AbstractController
         return $this->json($user, JsonResponse::HTTP_OK);
     }
 
+    #[Route('/user/email', name: 'get_user_by_email', methods: ['POST'])]
+    public function getUserByEmail(UsersRepository $usersRepository, Request $req, SerializerInterface $serializer): JsonResponse {
+        $userEmail = $req->toArray()['email'];
+        $user = $usersRepository->findOneByEmail($userEmail);
+        if(!$user) {
+            return $this->json(null, JsonResponse::HTTP_NOT_FOUND);
+        }
+        return $this->json($user, JsonResponse::HTTP_OK);
+    }
+
     #[Route('/users/signup', name: 'create_users', methods: ['POST'])]
     public function createUsers(EntityManagerInterface $entityManager, Request $req, SerializerInterface $serializer, ValidatorInterface $validator, UserPasswordHasherInterface $passwordHasher): JsonResponse {
         $newUser = $serializer->deserialize($req->getContent(), Users::class, 'json');
